@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 
 // app route
 app.get("/app", (req, res) => { 
-  res.send("<h1> Hello from App </h1>"); 
+  res.send("<h1> Hi from App!!!</h1>"); 
 }); 
 
 // order route
