@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   variables: 
-     IMAGE_TAG: ${CODEBUILD_BUILD_NUMBER}
+     #IMAGE_TAG: ${CODEBUILD_BUILD_NUMBER}
     #IMAGE_TAG: tag_$(date +%Y-%m-%d-%H-%M)
   exported-variables:
     - CODEBUILD_BUILD_NUMBER
@@ -25,19 +25,19 @@ phases:
   build:
     commands:
       - echo CODEBUILD_BUILD_NUMBER as:- ${CODEBUILD_BUILD_NUMBER}
-      - echo IMAGE_TAG as:- ${IMAGE_TAG}
+      #- echo IMAGE_TAG as:- ${IMAGE_TAG}
       #- export BUILD_VERSION=$(date +%Y.%m.%d).$CODEBUILD_BUILD_NUMBER
       #- echo Building version [$BUILD_VERSION]...
       - echo Compiling the Node.js code
       - npm ci
-      - docker build -t $IMAGE_REPO_NAME:$IMAGE_TAG .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
+      - docker build -t $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER .
+      - docker tag $IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
       #- mocha test.js
   post_build:
     commands:
       - echo Pushing the docker image
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
-      - printf '[{"name":"$s","imageUri":"%s"}]' $CONTAINER_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG  > imagedefinitions.json
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER
+      - printf '[{"name":"$s","imageUri":"%s"}]' $CONTAINER_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$CODEBUILD_BUILD_NUMBER  > imagedefinitions.json
 # Include only the files required for your application to run.
 # Do not use recursively include artifacts from node_modules directory as it will include unnecessary packages 
 # used only for building and testing.
