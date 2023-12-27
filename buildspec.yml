@@ -1,8 +1,8 @@
 version: 0.2
 
 env:
-  variables: 
-     #IMAGE_TAG: ${CODEBUILD_BUILD_NUMBER}
+  #variables: 
+    #IMAGE_TAG: ${CODEBUILD_BUILD_NUMBER}
     #IMAGE_TAG: tag_$(date +%Y-%m-%d-%H-%M)
   exported-variables:
     - CODEBUILD_BUILD_NUMBER
